@@ -1,8 +1,8 @@
 import { generateWinPatterns } from "./logic/utils";
 
 export const TURNS = {
-  X: "×",
-  O: "o",
+  X: "✖",
+  O: "○",
 };
 
 export const WINNER_OPTIONS = {

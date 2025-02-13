@@ -2,9 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import confetti from "canvas-confetti";
 import { Cell } from "./components/Cell";
-import { getFirstTurn } from "./logic/utils";
 import { TURNS, WINNER_OPTIONS } from "./constants";
-import { checkHasWinner } from "./logic/board";
+import { checkHasWinner, getFirstTurn } from "./logic/board";
 import { EndGameModal } from "./components/EndGameModal";
 
 function App() {
@@ -25,6 +24,7 @@ function App() {
     setTurn(newTurn);
 
     const newWinner = checkHasWinner(updatedBoard);
+    console.log({ newWinner });
     if (newWinner) {
       confetti();
       setWinner(newWinner);

@@ -1,7 +1,7 @@
 import { WINNER_OPTIONS } from "../constants";
 
 export const EndGameModal = ({ winner, handleNewGame }) => {
-  if (winner !== WINNER_OPTIONS.NONE) return null;
+  if (winner === WINNER_OPTIONS.NONE) return null;
 
   const winnerText =
     winner === WINNER_OPTIONS.TIE ? "We have a tie" : `Congratulations to:`;
