@@ -1,4 +1,4 @@
-import { generateWinPatterns } from "./logic/utils";
+import { generateWinPatterns } from "./utils";
 
 export const TURNS = {
   X: "✖",

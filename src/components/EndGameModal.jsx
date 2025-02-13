@@ -1,4 +1,4 @@
-import { WINNER_OPTIONS } from "../constants";
+import { WINNER_OPTIONS } from "../logic/constants";
 
 export const EndGameModal = ({ winner, handleNewGame }) => {
   if (winner === WINNER_OPTIONS.NONE) return null;
