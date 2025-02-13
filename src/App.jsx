@@ -10,7 +10,7 @@ const Square = ({ children, updateBoard, index, isSelected }) => {
   const className = `square ${isSelected ? "is-selected" : ""}`;
 
   const handleClick = () => {
-    updateBoard();
+    updateBoard(index);
   };
 
   return (
@@ -26,7 +26,11 @@ function App() {
     [TURNS.X, TURNS.O][Math.floor(Math.random() * 2)]
   );
 
-  const updateBoard = () => {
+  const updateBoard = (index) => {
+    const updatedBoard = [...board];
+    updatedBoard[index] = turn;
+    setBoard(updatedBoard);
+
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn(newTurn);
   };
@@ -37,7 +41,9 @@ function App() {
 
       <section className="game">
         {board.map((_, index) => (
-          <Square key={index} index={index} updateBoard={updateBoard}></Square>
+          <Square key={index} index={index} updateBoard={updateBoard}>
+            {board[index]}
+          </Square>
         ))}
       </section>
 
