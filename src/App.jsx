@@ -27,6 +27,8 @@ function App() {
   );
 
   const updateBoard = (index) => {
+    if (board[index]) return;
+
     const updatedBoard = [...board];
     updatedBoard[index] = turn;
     setBoard(updatedBoard);
