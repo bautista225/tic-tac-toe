@@ -6,7 +6,9 @@ export const saveGame = (game, gameMode, lastGameBoard, lastTurn) => {
 };
 
 export const recoverGame = (game, gameMode) => {
-  window.localStorage.getItem(`${game}_${gameMode}`);
+  const json = window.localStorage.getItem(`${game}_${gameMode}`);
+  if (json) return JSON.parse(json);
+  else return null;
 };
 
 export const resetGame = (game, gameMode) => {
@@ -21,5 +23,7 @@ export const saveStats = (game, gameMode, historicalStats) => {
 };
 
 export const getStats = (game, gameMode) => {
-  window.localStorage.setItem(`${game}_${gameMode}`);
+  const json = window.localStorage.getItem(`${game}_${gameMode}`);
+  if (json) return JSON.parse(json);
+  else return null;
 };

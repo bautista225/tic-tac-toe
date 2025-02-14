@@ -1,5 +1,13 @@
 import { generateWinPatterns } from "./utils";
 
+export const GAME_NAME = {
+  TIC_TAC_TOE: "TicTacToe",
+};
+export const GAME_MODES = {
+  SINGLE_PLAYER: "SinglePlayer",
+  MULTI_PLAYER: "MultiPlayer",
+};
+
 export const TURNS = {
   X: "✖",
   O: "○",

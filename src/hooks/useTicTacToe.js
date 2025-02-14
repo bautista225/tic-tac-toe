@@ -1,39 +1,64 @@
 import confetti from "canvas-confetti";
 import { useState } from "react";
-import { TURNS, WINNER_OPTIONS } from "../logic/constants";
-import { checkHasWinner, getFirstTurn } from "../logic/board";
+import {
+  GAME_MODES,
+  GAME_NAME,
+  TURNS,
+  WINNER_OPTIONS,
+} from "../logic/constants";
+import { checkHasEnded, checkHasWinner, getFirstTurn } from "../logic/board";
+import { recoverGame, resetGame, saveGame } from "../services/GameService";
+import { useEffect } from "react";
+
+const getInitialMove = () => ({
+  board: Array(9).fill(null),
+  turn: getFirstTurn(),
+});
 
 export const useTicTacToe = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const [turn, setTurn] = useState(getFirstTurn());
+  const [{ board, turn }, setMove] = useState(() => {
+    const availableRecovery = recoverGame(
+      GAME_NAME.TIC_TAC_TOE,
+      GAME_MODES.MULTI_PLAYER
+    );
+    return availableRecovery
+      ? {
+          board: availableRecovery.lastGameBoard,
+          turn: availableRecovery.lastTurn,
+        }
+      : getInitialMove();
+  });
+
   const [winner, setWinner] = useState(WINNER_OPTIONS.NONE);
 
-  const checkHasEnded = (board) => board.every((cell) => cell !== null);
+  useEffect(() => {
+    if (board.some((cell) => cell !== null))
+      saveGame(GAME_NAME.TIC_TAC_TOE, GAME_MODES.MULTI_PLAYER, board, turn);
+
+    const newWinner = checkHasWinner(board);
+    console.log({ newWinner });
+    if (newWinner) {
+      confetti();
+      setWinner(newWinner);
+    } else if (checkHasEnded(board)) {
+      setWinner(WINNER_OPTIONS.TIE);
+    }
+  }, [turn]);
 
   const updateBoard = (index) => {
     if (winner || board[index]) return;
 
     const updatedBoard = [...board];
     updatedBoard[index] = turn;
-    setBoard(updatedBoard);
-
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
-    setTurn(newTurn);
 
-    const newWinner = checkHasWinner(updatedBoard);
-    console.log({ newWinner });
-    if (newWinner) {
-      confetti();
-      setWinner(newWinner);
-    } else if (checkHasEnded(updatedBoard)) {
-      setWinner(WINNER_OPTIONS.TIE);
-    }
+    setMove({ board: updatedBoard, turn: newTurn });
   };
 
   const resetBoard = () => {
-    setBoard(Array(9).fill(null));
-    setTurn(getFirstTurn());
+    setMove(getInitialMove());
     setWinner(WINNER_OPTIONS.NONE);
+    resetGame(GAME_NAME.TIC_TAC_TOE, GAME_MODES.MULTI_PLAYER);
   };
 
   return { board, turn, winner, resetBoard, updateBoard };

@@ -13,3 +13,5 @@ export const checkHasWinner = (board) => {
 
   return winner ? player : null;
 };
+
+export const checkHasEnded = (board) => board.every((cell) => cell !== null);
