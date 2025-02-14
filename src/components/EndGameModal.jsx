@@ -7,10 +7,10 @@ export const EndGameModal = ({ winner, handleNewGame }) => {
     winner === WINNER_OPTIONS.TIE ? "We have a tie" : `Congratulations to:`;
 
   return (
-    <section className="winner">
-      <div className="text">
-        <h2>{winnerText}</h2>
-        <header className="win">{winner}</header>
+    <section className="modal">
+      <div className="content">
+        <span className="title">{winnerText}</span>
+        <header className="winner">{winner}</header>
         <footer>
           <button onClick={handleNewGame}>New game</button>
         </footer>

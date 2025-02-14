@@ -6,14 +6,9 @@ import {
   TURNS,
   WINNER_OPTIONS,
 } from "../logic/constants";
-import { checkHasEnded, checkHasWinner, getFirstTurn } from "../logic/board";
+import { checkHasEnded, checkHasWinner, getInitialMove } from "../logic/board";
 import { recoverGame, resetGame, saveGame } from "../services/GameService";
 import { useEffect } from "react";
-
-const getInitialMove = () => ({
-  board: Array(9).fill(null),
-  turn: getFirstTurn(),
-});
 
 export const useTicTacToe = () => {
   const [{ board, turn }, setMove] = useState(() => {

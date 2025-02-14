@@ -1,8 +1,13 @@
 import { TURNS, WINNING_COMBINATIONS } from "./constants";
 
-export const getFirstTurn = () => {
+const getFirstTurn = () => {
   return Object.values(TURNS)[Math.floor(Math.random() * 2)];
 };
+
+export const getInitialMove = () => ({
+  board: Array(9).fill(null),
+  turn: getFirstTurn(),
+});
 
 export const checkHasWinner = (board) => {
   let player = null;

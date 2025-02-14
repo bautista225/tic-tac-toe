@@ -1,12 +1,10 @@
-export const Cell = ({ children, updateBoard, index, isSelected }) => {
-  const className = `square ${isSelected ? "is-selected" : ""}`;
-
+export const Cell = ({ children, updateBoard, index }) => {
   const handleClick = () => {
     updateBoard(index);
   };
 
   return (
-    <div className={className} onClick={handleClick}>
+    <div className="cell" onClick={handleClick}>
       {children}
     </div>
   );
