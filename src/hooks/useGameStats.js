@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getHistoricalStats } from "../services/GameService";
+import { getGameData } from "../services/GameService";
 
 export const useGameStats = (gameName) => {
   const [stats, setStats] = useState();
 
   const refreshStats = () => {
-    const historicalStats = getHistoricalStats(gameName);
-    console.log({ historicalStats });
-    if (historicalStats) setStats(historicalStats);
+    const gameData = getGameData(gameName);
+    console.log({ gameData });
+    if (gameData) setStats(gameData.historicalStats);
   };
 
   useEffect(() => {

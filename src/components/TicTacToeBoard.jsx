@@ -21,7 +21,7 @@ export const TicTacToeBoard = () => {
     resetGame,
   } = useTicTacToe();
 
-  const { gameData, refreshStats } = useGameStats(GAME_NAME.TIC_TAC_TOE);
+  const { stats, refreshStats } = useGameStats(GAME_NAME.TIC_TAC_TOE);
 
   const resetGamePlayers = () => {
     resetGame();
@@ -63,7 +63,7 @@ export const TicTacToeBoard = () => {
         />
       </main>
 
-      <Stats gameData={gameData} />
+      <Stats historicalStats={stats} />
     </>
   );
 };

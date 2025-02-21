@@ -1,0 +1,23 @@
+.container {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  width: 350px;
+}
+
+.footer {
+  padding-top: 15px;
+  margin-top: 20px;
+  color: #91989e; /* Bootstrap's text-muted color */
+  border-top: 2px solid #dee2e6; /* Bootstrap's border-top color */
+  border-radius: 2px;
+  text-align: center;
+}
+
+.footer-link {
+  color: #b6bfc7;
+  text-decoration: underline;
+}
+
+.footer-link:hover {
+  color: #dce1e6; /* Slightly darker on hover */
+}

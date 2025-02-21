@@ -78,7 +78,12 @@ export const useTicTacToe = () => {
     const gameData = {
       player1,
       player2,
-      winner,
+      winner:
+        winner === WINNER_OPTIONS.X
+          ? player1
+          : winner === WINNER_OPTIONS.O
+          ? player2
+          : WINNER_OPTIONS.TIE,
       gameName: GAME_NAME.TIC_TAC_TOE,
       gameMode,
       dateTime: new Date(),

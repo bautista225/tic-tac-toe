@@ -16,13 +16,13 @@ export const removeGameRecovery = (game) => {
 };
 
 export const saveNewGameData = (game, newGameData) => {
-  const gameData = getHistoricalStats(game) ?? { historicalStats: [] };
+  const gameData = getGameData(game) ?? { historicalStats: [] };
   gameData.historicalStats.push(newGameData);
 
   window.localStorage.setItem(`${game}_dataStats`, JSON.stringify(gameData));
 };
 
-export const getHistoricalStats = (game) => {
+export const getGameData = (game) => {
   const json = window.localStorage.getItem(`${game}_dataStats`);
   if (json) return JSON.parse(json);
   else return null;

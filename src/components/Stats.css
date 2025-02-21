@@ -1,0 +1,38 @@
+.leaderboard {
+  text-align: center;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.match-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.leaderboard-player {
+  min-width: 100px;
+}
+
+.leaderboard-player.player-left {
+  text-align: right;
+}
+
+.leaderboard-player.player-right {
+  text-align: left;
+}
+
+.score-badge {
+  min-width: 60px;
+  background: rgb(3, 221, 148);
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
