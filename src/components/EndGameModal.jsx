@@ -1,20 +1,18 @@
 import { WINNER_OPTIONS } from "../logic/constants";
+import { Modal } from "./Modal";
 
-export const EndGameModal = ({ winner, handleNewGame }) => {
-  if (winner === WINNER_OPTIONS.NONE) return null;
+export const EndGameModal = ({ showModal, winner, handleNewGame }) => {
+  if (!showModal) return null;
 
   const winnerText =
     winner === WINNER_OPTIONS.TIE ? "We have a tie" : `Congratulations to:`;
 
   return (
-    <section className="modal">
-      <div className="content">
-        <span className="title">{winnerText}</span>
-        <header className="winner">{winner}</header>
-        <footer>
-          <button onClick={handleNewGame}>New game</button>
-        </footer>
-      </div>
-    </section>
+    <Modal title={winnerText}>
+      <header className="winner">{winner}</header>
+      <footer>
+        <button onClick={handleNewGame}>New game</button>
+      </footer>
+    </Modal>
   );
 };

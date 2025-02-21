@@ -1,13 +1,11 @@
 import { TURNS, WINNING_COMBINATIONS } from "./constants";
 
-const getFirstTurn = () => {
-  return Object.values(TURNS)[Math.floor(Math.random() * 2)];
+export const getRandomValueFromList = (list) => {
+  return list[Math.floor(Math.random() * list.length)];
 };
 
-export const getInitialMove = () => ({
-  board: Array(9).fill(null),
-  turn: getFirstTurn(),
-});
+export const getInitialTurn = () =>
+  getRandomValueFromList(Object.values(TURNS));
 
 export const checkHasWinner = (board) => {
   let player = null;
@@ -20,3 +18,13 @@ export const checkHasWinner = (board) => {
 };
 
 export const checkHasEnded = (board) => board.every((cell) => cell !== null);
+
+export const getAIPlayerMove = (board) => {
+  const pendingCellIndexes = board.reduce((notFilled, cell, index) => {
+    if (!cell) notFilled.push(index);
+    return notFilled;
+  }, []);
+  const newCellIndex = getRandomValueFromList(pendingCellIndexes);
+
+  return newCellIndex;
+};

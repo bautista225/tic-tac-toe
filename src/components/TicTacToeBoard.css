@@ -39,10 +39,17 @@
 
 .turn {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-evenly;
+  align-items: center;
   margin: auto;
   width: fit-content;
   position: relative;
+}
+
+.turn .player-name {
+  font-size: larger;
 }
 
 .player {
@@ -57,7 +64,7 @@
 
 .player.is-selected {
   color: #fff;
-  background: #09f;
+  background: rgb(3, 221, 148);
 }
 
 .modal {
@@ -102,4 +109,10 @@
   place-items: center;
   cursor: pointer;
   font-size: 48px;
+}
+
+.gameModeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

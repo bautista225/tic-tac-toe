@@ -1,60 +1,126 @@
 import confetti from "canvas-confetti";
 import { useState } from "react";
 import {
+  AI_PLAYER_NAME,
   GAME_MODES,
   GAME_NAME,
   TURNS,
   WINNER_OPTIONS,
 } from "../logic/constants";
-import { checkHasEnded, checkHasWinner, getInitialMove } from "../logic/board";
-import { recoverGame, resetGame, saveGame } from "../services/GameService";
+import { getAIPlayerMove } from "../logic/board";
+import {
+  recoverGame,
+  removeGameRecovery,
+  saveGameRecovery,
+  saveNewGameData,
+} from "../services/GameService";
 import { useEffect } from "react";
+import { useTicTacToeBoard } from "./useTicTacToeBoard";
 
 export const useTicTacToe = () => {
-  const [{ board, turn }, setMove] = useState(() => {
-    const availableRecovery = recoverGame(
-      GAME_NAME.TIC_TAC_TOE,
-      GAME_MODES.MULTI_PLAYER
-    );
-    return availableRecovery
-      ? {
-          board: availableRecovery.lastGameBoard,
-          turn: availableRecovery.lastTurn,
-        }
-      : getInitialMove();
+  const [players, setPlayers] = useState({
+    player1: null,
+    player2: null,
   });
+  const { player1, player2 } = players;
+  const { board, turn, winner, updateBoard, setNewBoard, setEmptyBoard } =
+    useTicTacToeBoard();
+  console.log({ turn });
+  const matchHasStarted = player1 !== null && turn !== null;
+  const gameMode =
+    player2 === AI_PLAYER_NAME
+      ? GAME_MODES.SINGLE_PLAYER
+      : GAME_MODES.MULTI_PLAYER;
+  const isAIMove = turn === TURNS.O && gameMode === GAME_MODES.SINGLE_PLAYER;
 
-  const [winner, setWinner] = useState(WINNER_OPTIONS.NONE);
+  useEffect(() => {
+    const availableRecovery = recoverGame(GAME_NAME.TIC_TAC_TOE);
+
+    if (availableRecovery) {
+      const { player1, player2 } = availableRecovery;
+      setPlayers({ player1, player2 });
+      setNewBoard(availableRecovery);
+    } else {
+      setPlayers({ player1: null, player2: null });
+    }
+  }, []);
 
   useEffect(() => {
     if (board.some((cell) => cell !== null))
-      saveGame(GAME_NAME.TIC_TAC_TOE, GAME_MODES.MULTI_PLAYER, board, turn);
+      saveGameRecovery(GAME_NAME.TIC_TAC_TOE, {
+        board,
+        turn,
+        player1,
+        player2,
+      });
+  }, [turn, winner]);
 
-    const newWinner = checkHasWinner(board);
-    console.log({ newWinner });
-    if (newWinner) {
+  useEffect(() => {
+    if (winner && winner !== WINNER_OPTIONS.TIE) {
       confetti();
-      setWinner(newWinner);
-    } else if (checkHasEnded(board)) {
-      setWinner(WINNER_OPTIONS.TIE);
+      saveWinnerStats();
+      removeGameRecovery(GAME_NAME.TIC_TAC_TOE);
     }
-  }, [turn]);
+  }, [winner]);
 
-  const updateBoard = (index) => {
-    if (winner || board[index]) return;
+  useEffect(() => {
+    if (matchHasStarted && !winner && isAIMove) {
+      console.log(`${AI_PLAYER_NAME} makes a movement`);
+      const nextMovePosition = getAIPlayerMove(board);
 
-    const updatedBoard = [...board];
-    updatedBoard[index] = turn;
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+      setTimeout(() => {
+        updateBoard(nextMovePosition);
+      }, 470);
+    }
+  }, [matchHasStarted, turn, winner, gameMode]);
 
-    setMove({ board: updatedBoard, turn: newTurn });
+  const saveWinnerStats = () => {
+    const gameData = {
+      player1,
+      player2,
+      winner,
+      gameName: GAME_NAME.TIC_TAC_TOE,
+      gameMode,
+      dateTime: new Date(),
+    };
+
+    saveNewGameData(GAME_NAME.TIC_TAC_TOE, gameData);
+    console.log("Match data saved!");
   };
 
-  const resetBoard = () => {
-    setMove(getInitialMove());
-    setWinner(WINNER_OPTIONS.NONE);
-    resetGame(GAME_NAME.TIC_TAC_TOE, GAME_MODES.MULTI_PLAYER);
+  const repeatGame = () => {
+    removeGameRecovery(GAME_NAME.TIC_TAC_TOE);
+    setNewBoard();
   };
 
-  return { board, turn, winner, resetBoard, updateBoard };
+  const resetGame = () => {
+    removeGameRecovery(GAME_NAME.TIC_TAC_TOE);
+    setEmptyBoard();
+    setPlayers({
+      player1: null,
+      player2: null,
+    });
+  };
+
+  const startGame = ({ player1, player2 }) => {
+    setNewBoard();
+    setPlayers({ player1, player2 });
+  };
+
+  const newUserMove = (nextMovePosition) => {
+    if (isAIMove) return;
+    updateBoard(nextMovePosition);
+  };
+
+  return {
+    board,
+    turn,
+    winner,
+    player1,
+    player2,
+    newUserMove,
+    startGame,
+    repeatGame,
+    resetGame,
+  };
 };

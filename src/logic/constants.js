@@ -13,6 +13,8 @@ export const TURNS = {
   O: "○",
 };
 
+export const AI_PLAYER_NAME = "🤖";
+
 export const WINNER_OPTIONS = {
   X: TURNS.X,
   O: TURNS.O,
