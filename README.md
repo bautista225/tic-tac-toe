@@ -41,8 +41,6 @@ Challenge your friends in single-player / multi-player approach and check the sc
    <img alt="Winner-page Tic Tac Toe" src="https://github.com/user-attachments/assets/a66a3935-b6e4-4040-b985-036a4041632c" height="550"/>
 </p>
 
-
-
 ## 🤝 Contributing
 Contributions to Tic Tac Toe are highly appreciated! Whether it's bug fixes, feature enhancements, or suggestions, feel free to open an issue or submit a pull request. Let's make this game even better together!
 
